@@ -1,0 +1,12 @@
+SET NAMES utf8mb4;
+
+USE appDB;
+
+CREATE TABLE IF NOT EXISTS world (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    capacity INT NOT NULL
+);
+
+INSERT INTO world (name, capacity) VALUES
+('ROBRUN', 3);
