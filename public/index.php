@@ -1,18 +1,17 @@
 <?php
+
+require_once '/var/www/db/db.php';
+require_once '/var/www/db/player_model.php';
+
 header('Content-Type: text/html; charset=utf-8');
 
-$db = new mysqli('db', 'appuser', 'apppassword', 'appDB');
-$db->set_charset('utf8mb4');
-
-$world = $db->query(
+$world = $mysqli->query(
     'SELECT name, capacity FROM world'
 )->fetch_assoc();
 
-$players = $db->query(
-    'SELECT id, name, status, is_bot FROM players ORDER BY id'
-)->fetch_all(MYSQLI_ASSOC);
+$players = getPlayers($mysqli);
 
-$occupied = 0; #игрок активный
+$occupied = 0; #игрок активны
 
 foreach ($players as $player) {
     if ($player['status'] === 'active') {
@@ -51,7 +50,6 @@ foreach ($players as $player) {
                  <th>ID</th>
                  <th>Имя</th>
                  <th>Статус</th>
-                 <th>Тип</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,7 +59,6 @@ foreach ($players as $player) {
                             <td><?= (int) $player['id'] ?></td>
                             <td><?= htmlspecialchars($player['name'], ENT_QUOTES, 'UTF-8') ?></td>
                             <td><?= htmlspecialchars($player['status'], ENT_QUOTES, 'UTF-8') ?></td>
-                            <td><?= (int) $player['is_bot'] === 1 ? 'Бот' : 'Игрок' ?></td>
                         </tr>
                         <?php endif; ?>
                         <?php endforeach; ?>
@@ -77,7 +74,6 @@ foreach ($players as $player) {
                              <th>ID</th>
                              <th>Имя</th>
                              <th>Статус</th>
-                             <th>Тип</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -87,7 +83,6 @@ foreach ($players as $player) {
                                         <td><?= (int) $player['id'] ?></td>
                                         <td><?= htmlspecialchars($player['name'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td><?= htmlspecialchars($player['status'], ENT_QUOTES, 'UTF-8') ?></td>
-                                        <td><?= (int) $player['is_bot'] === 1 ? 'Бот' : 'Игрок' ?></td>
                             </tr>
                             <?php endif; ?>
                             <?php endforeach; ?>
@@ -104,7 +99,6 @@ foreach ($players as $player) {
                                  <th>ID</th>
                                  <th>Имя</th>
                                  <th>Статус</th>
-                                 <th>Тип</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -113,7 +107,6 @@ foreach ($players as $player) {
                                         <td><?= (int) $player['id'] ?></td>
                                         <td><?= htmlspecialchars($player['name'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td><?= htmlspecialchars($player['status'], ENT_QUOTES, 'UTF-8') ?></td>
-                                        <td><?= (int) $player['is_bot'] === 1 ? 'Бот' : 'Игрок' ?></td>
                                     </tr>
                                     <?php endforeach; ?>
                                 </tbody>

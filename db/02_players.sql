@@ -5,14 +5,12 @@ USE appDB;
 CREATE TABLE IF NOT EXISTS players (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    status VARCHAR(50) NOT NULL,
-    is_bot BOOLEAN NOT NULL DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    status VARCHAR(50) NOT NULL
 );
 
-INSERT INTO players (name, status, is_bot) VALUES
-('Player1', 'active', FALSE),
-('Player2', 'active', FALSE),
-('Bot1', 'active', TRUE),
-('Ilya', 'waiting', FALSE),
-('Kabir', 'waiting', FALSE);
+INSERT INTO players (name, status) VALUES
+('Player1', 'active'),
+('Player2', 'active'),
+('Bot1', 'active'),
+('Ilya', 'waiting'),
+('Kabir', 'waiting');
