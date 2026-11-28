@@ -10,7 +10,7 @@ $world = $mysqli->query(
 )->fetch_assoc();
 
 $players = getPlayers($mysqli);
-
+$waitingPlayers = getPlayers($mysqli, 'waiting'); #игроки в очереди
 $occupied = 0; #игрок активны
 
 foreach ($players as $player) {
@@ -71,20 +71,20 @@ foreach ($players as $player) {
                  <table border="1">
                      <thead>
                          <tr>
+                             <th>Место</th>
                              <th>ID</th>
                              <th>Имя</th>
                              <th>Статус</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($players as $player): ?>
-                                <?php if (($player['status'] ?? '') === 'waiting'): ?>
+                            <?php foreach ($waitingPlayers as $player): ?>
                                     <tr>
+                                        <td><?= (int) $player['queue_position'] ?></td>
                                         <td><?= (int) $player['id'] ?></td>
                                         <td><?= htmlspecialchars($player['name'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td><?= htmlspecialchars($player['status'], ENT_QUOTES, 'UTF-8') ?></td>
                             </tr>
-                            <?php endif; ?>
                             <?php endforeach; ?>
                         </tbody>
                     </table>

@@ -71,6 +71,48 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         echo json_encode($player, JSON_UNESCAPED_UNICODE);
         break;
+
+        case 'PATCH':
+            $id = filter_input(
+            INPUT_GET,
+            'id',
+            FILTER_VALIDATE_INT,
+            ['options' => ['min_range' => 1]]
+        );
+
+        if ($id === null || $id === false) {
+        http_response_code(400);
+        echo json_encode(
+            ['error' => 'Укажите корректный id игрока'],
+            JSON_UNESCAPED_UNICODE
+            );
+        break;
+        }
+
+        try {
+            $player = rejoinPlayer($mysqli, $id);
+        } catch (DomainException $error) {
+            http_response_code(409);
+            echo json_encode(
+                ['error' => $error->getMessage()],
+                JSON_UNESCAPED_UNICODE
+            );
+        break;
+    }
+
+        if ($player === null) {
+            http_response_code(404);
+            echo json_encode(
+                ['error' => 'Игрок не найден'],
+                JSON_UNESCAPED_UNICODE
+            );
+            break;
+        }
+
+    echo json_encode($player, JSON_UNESCAPED_UNICODE);
+    break;
+            
+            
           
         default:
             http_response_code(405);
